@@ -5,6 +5,7 @@ from .dimensions_unit import DimensionsUnit
 from .recipient import Recipient
 from .occasion import Occasion
 from .auto_deserialize import AutoDeserialize
+from .shop import Shop
 from dataclasses import dataclass
 from typing import Optional, Sequence
 
@@ -63,3 +64,4 @@ class Listing(AutoDeserialize):
     language: Optional[str] = None
     is_vintage: Optional[bool] = None # not listed in the API specs
     used_manufacturer: Optional[bool] = None # not listed in the API specs
+    shop: Optional[Shop] = None # association

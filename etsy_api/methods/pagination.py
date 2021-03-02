@@ -1,10 +1,10 @@
+from dataclasses import dataclass
+
+
+@dataclass
 class Pagination:
-    def __init__(
-        self,
-        effective_limit: int = 0,
-        effective_offset: int = 0,
-        next_offset: int = 0,
-        effective_page: int = 0,
-        next_page: int = 0,
-    ):
-        
+    effective_limit: int
+    effective_offset: int 
+    next_offset: int 
+    effective_page: int 
+    next_page: int 

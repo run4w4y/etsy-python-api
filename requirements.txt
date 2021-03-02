@@ -1,3 +1,2 @@
-trio # async lib
 httpx # http client
 authlib # needed for oauth

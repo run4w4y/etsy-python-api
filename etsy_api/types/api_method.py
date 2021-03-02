@@ -1,6 +1,7 @@
 import urllib
 import httpx
 from ..exceptions import MethodVisibilityException
+from ..api_key import EtsyApiKey
 from dataclasses import dataclass
 
 
@@ -9,13 +10,14 @@ from dataclasses import dataclass
 class ApiMethod:
     base_url = 'https://openapi.etsy.com/v2'
     name: str=''
+    description: str=''
     uri: str='/'
     params: dict=None
     defaults: dict=None
     return_type: str=''
     visibility: str='public'
     http_method: str='GET'
-    api_key: str=None
+    api_key: EtsyApiKey=None
     
     async def __call__(self, **kwargs):
         request_args = { 'method': self.http_method, 'api_key': self.api_key.keystring }

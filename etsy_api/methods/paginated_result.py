@@ -1,6 +1,9 @@
+from dataclasses import dataclass
+from .pagination import Pagination
+
+
+@dataclass
 class PaginatedResult:
-    def __init__(
-        self, 
-        total_count: int = 0,
-        
-    ):
+    total_count: int
+    pagination: Pagination
+    results: list

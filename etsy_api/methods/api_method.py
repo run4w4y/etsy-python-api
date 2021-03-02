@@ -12,6 +12,7 @@ class get_method_table(ApiMethod):
         )
 
     async def __call__(self):
-        res = await super().__call__(self)
+        res = await super().__call__()
         print(res)
         return res
+    

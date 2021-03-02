@@ -1,8 +1,16 @@
 from ..types import ApiMethod, Listing
 from ..types.string_enum import StringEnum
+from .. import types
 from enum import auto
 from typing import Optional, Sequence
+from .paginated_result import PaginatedResult
+from .pagination import Pagination
 import json
+import inspect
+
+def _association_lookup(name: str):
+    members = dict(inspect.getmembers(types))
+    return members.get(name)
 
 
 class SortOn(StringEnum):
@@ -51,7 +59,8 @@ class find_all_listing_active(ApiMethod):
         region: Optional[str] = None, # TODO: [ ] change type to region
         geo_level: Optional[GeoLevel] = None,
         accepts_gift_cards: Optional[bool] = None,
-        translate_keywords: Optional[bool] = None
+        translate_keywords: Optional[bool] = None,
+        includes: Optional[str] = None # specify an association TODO: do a better job with associations
     ):
         kwargs = {}
 
@@ -61,10 +70,16 @@ class find_all_listing_active(ApiMethod):
 
         res = await super().__call__(**kwargs)
         
-        # TODO: [+] add json processing here
         with open('res.json', 'w') as f:
             f.write(json.dumps(res, indent=4))
+
+        new_res = []
+        for json_listing in res['results']:
+            if includes is not None:
+                for association in map(lambda x: x.strip(), includes.split(',')):
+                    json_listing[association.lower()] = _association_lookup(association)(**json_listing[association])
+                    del json_listing[association]
+            
+            new_res.append(Listing(**json_listing))
         
-        new_res = (res['count'], list(map(lambda x: Listing.deserialize_with_enums(x), res['results'])))
-        print(new_res)
-        return new_res
+        return PaginatedResult(total_count=res['count'], results=new_res, pagination=Pagination(*res['pagination']))

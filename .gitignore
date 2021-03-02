@@ -1,3 +1,5 @@
 .replit
 test.py
 *.json
+.venv
+.vscode
