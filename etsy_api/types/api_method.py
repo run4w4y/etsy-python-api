@@ -20,12 +20,16 @@ class ApiMethod:
     api_key: EtsyApiKey=None
     
     async def __call__(self, **kwargs):
+        timeout = 20
+        if kwargs.get('timeout') is not None:
+            timeout = kwargs['timeout']
+            
         request_args = { 'method': self.http_method, 'api_key': self.api_key.keystring }
         
         request_args.update(kwargs)
         args_encoded = urllib.parse.urlencode(request_args)
         async with httpx.AsyncClient() as client:
-            r = await client.get(f'{self.base_url}{self.uri}?{args_encoded}')
+            r = await client.get(f'{self.base_url}{self.uri}?{args_encoded}', timeout=timeout)
             r.raise_for_status() # TODO: [ ] should handle it in a better way
         
         return r.json()

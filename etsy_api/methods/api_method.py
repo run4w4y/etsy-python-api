@@ -1,4 +1,5 @@
 from ..types import ApiMethod
+from typing import Optional
 
 
 # TODO: [ ] complete
@@ -11,8 +12,8 @@ class get_method_table(ApiMethod):
             api_key = api_key
         )
 
-    async def __call__(self):
-        res = await super().__call__()
+    async def __call__(self, timeout: Optional[int] = 20):
+        res = await super().__call__(timeout=timeout)
         print(res)
         return res
     

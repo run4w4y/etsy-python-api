@@ -60,7 +60,8 @@ class find_all_listing_active(ApiMethod):
         geo_level: Optional[GeoLevel] = None,
         accepts_gift_cards: Optional[bool] = None,
         translate_keywords: Optional[bool] = None,
-        includes: Optional[str] = None # specify an association TODO: do a better job with associations
+        includes: Optional[str] = None, # specify an association TODO: do a better job with associations
+        timeout: Optional[int] = 20 # timeout for request in seconds
     ):
         kwargs = {}
 
@@ -69,9 +70,6 @@ class find_all_listing_active(ApiMethod):
                 kwargs[arg_key] = arg_value
 
         res = await super().__call__(**kwargs)
-        
-        with open('res.json', 'w') as f:
-            f.write(json.dumps(res, indent=4))
 
         new_res = []
         for json_listing in res['results']:
