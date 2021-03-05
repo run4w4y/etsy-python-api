@@ -80,4 +80,4 @@ class find_all_listing_active(ApiMethod):
             
             new_res.append(Listing(**json_listing))
         
-        return PaginatedResult(total_count=res['count'], results=new_res, pagination=Pagination(*res['pagination']))
+        return PaginatedResult(total_count=res['count'], results=new_res, pagination=Pagination(**res['pagination']))
