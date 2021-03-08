@@ -23,6 +23,7 @@ class ApiMethod:
         timeout = 20
         if kwargs.get('timeout') is not None:
             timeout = kwargs['timeout']
+            del kwargs['timeout']
             
         request_args = { 'method': self.http_method, 'api_key': self.api_key.keystring }
         
